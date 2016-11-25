@@ -1,7 +1,12 @@
 #!/bin/bash
 
 # Install GCC 6
-echo "---- Update GCC and G++ ----"
+# Print some readable output to shell
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+echo -e "\t\tUpdate GCC and G++"
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+
+
 echo -n "Add Debian testing... "
 sudo sh -c "echo 'deb http://ftp.us.debian.org/debian testing main contrib non-free' >> /etc/apt/sources.list"
 sudo sh -c 'echo "Package: *
