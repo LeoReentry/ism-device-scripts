@@ -1,7 +1,9 @@
 #!/bin/bash
 
 # TPM
-sudo apt-get -q -y install libtspi-dev tpm-tools
-cd /opt/scripts/tools/
-sudo ./update_kernel.sh --bone-xenomai-channel --stable
-sudo reboot
+# Install tpm tools and TSPI library
+echo -n "Installing TPM library... "
+echo "-------- INSTALL TPM TOOLS AND TSPI LIBRARY --------" > $LOGPATH/tpm.log
+sudo apt-get -q -y install libtspi-dev tpm-tools >> $LOGPATH/tpm.log
+echo "tpm" >> $LOGPATH/reboot.log
+echo "Done!"
