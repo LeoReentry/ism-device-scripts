@@ -5,6 +5,7 @@
 # That gives the Kernel full cape support (aka support for CryptoCape)
 
 cd /opt/scripts/tools
+echo "---- Update Kernel ----"
 echo -n "Downloading Kernel Versions... "
 # Log
 echo "-------- PULL KERNEL VERSIONS --------" > $LOGPATH/kernel.log
