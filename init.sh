@@ -22,13 +22,13 @@ SCRIPTPATH="$THISPATH/sub"
 export LOGPATH
 export SCRIPTPATH
 # Disable HDMI but enable eMMC overlay
-sudo sed -i 's/#dtb=am335x-boneblack-emmc-overlay.dtb/dtb=am335x-boneblack-emmc-overlay.dtb/gi' /boot/uEnv.txt
+# sudo sed -i 's/#dtb=am335x-boneblack-emmc-overlay.dtb/dtb=am335x-boneblack-emmc-overlay.dtb/gi' /boot/uEnv.txt
 
 # ============================================================
 # Check kernel version
 # ============================================================
 # If kernel isn't version 3.8.X, we'll have to update it
-uname -r | grep -qP "3\.8\.\d{1,}-r\d{1,}"
+uname -r | grep -qP "3\.8\.\d{1,}-[\w\d]{1,}"
 # If we don't have the desired Kernel version, we'll install it
 if [ $? -eq  1 ]; then
   # Update kernel
@@ -47,10 +47,10 @@ fi
 # ============================================================
 if ! fgrep "tpm" "$LOGPATH/reboot.log"; then
   # Initialize TPM
-  $SCRIPTPATH/tpm.sh
+  sudo $SCRIPTPATH/tpm.sh
 fi
 
 if ! fgrep "gcc" "$LOGPATH/reboot.log"; then
   # Initialize TPM
-  $SCRIPTPATH/gcc.sh
+  sudo $SCRIPTPATH/gcc.sh
 fi

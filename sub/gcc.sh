@@ -12,15 +12,15 @@ sudo sh -c "echo 'deb http://ftp.us.debian.org/debian testing main contrib non-f
 sudo sh -c 'echo "Package: *
 Pin: release a=testing
 Pin-Priority: 100" >> /etc/apt/preferences'
-echo -ne "Done!\nUpdate repositories... "
-sudo apt-get -q update > /dev/null
+echo -ne "Done!\nThe following operations may take some time to finish. Please don't cancel the script.\nUpdating repositories... "
+sudo DEBIAN_FRONTEND=noninteractive apt-get -q update > /dev/null
 # Log
 echo "-------- INSTALL GCC AND G++ --------" > $LOGPATH/gcc.log
 echo -ne "Done!\nInstalling GCC... "
-sudo apt-get -q -y install -t testing gcc >> $LOGPATH/gcc.log
+sudo DEBIAN_FRONTEND=noninteractive apt-get -q -y install -t testing gcc >> $LOGPATH/gcc.log
 echo -ne "Done!\nInstalling G++... "
-sudo apt-get -q -y install -t testing g++ >> $LOGPATH/gcc.log
-echo "Done!"
+sudo DEBIAN_FRONTEND=noninteractive apt-get -q -y install -t testing g++ >> $LOGPATH/gcc.log
+echo -e "Done!\nRebooting..."
 # Reboot
 echo "gcc" >> $LOGPATH/reboot.log
 sudo reboot
