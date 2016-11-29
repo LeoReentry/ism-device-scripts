@@ -39,7 +39,7 @@ uname -r | grep -qP "3\.8\.\d{1,}-[\w\d]{1,}"
 # If we don't have the desired Kernel version, we'll install it
 if [ $? -eq  1 ]; then
   # Update kernel
-  $SCRIPTPATH/kernel.sh
+  source $SCRIPTPATH/kernel.sh
 fi
 
 # Ok, kernel is installed
@@ -60,10 +60,10 @@ fi
 # ============================================================
 if ! fgrep "tpm" "$LOGPATH/reboot.log"; then
   # Initialize TPM
-  sudo $SCRIPTPATH/tpm.sh
+  source $SCRIPTPATH/tpm.sh
 fi
 
 if ! fgrep "gcc" "$LOGPATH/reboot.log"; then
   # Initialize TPM
-  sudo $SCRIPTPATH/gcc.sh
+  source $SCRIPTPATH/gcc.sh
 fi
