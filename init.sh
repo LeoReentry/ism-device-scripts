@@ -18,11 +18,18 @@ SCRIPT=$(readlink -f "$0")
 THISPATH=$(dirname "$SCRIPT")
 LOGPATH="$THISPATH/log"
 SCRIPTPATH="$THISPATH/sub"
+
+# Create folder for logfiles
+if [ ! -d "$LOGPATH" ]; then
+  mkdir $LOGPATH
+fi
+
 # Set path variables as environment variables
 export LOGPATH
 export SCRIPTPATH
 # Disable HDMI but enable eMMC overlay
 # sudo sed -i 's/#dtb=am335x-boneblack-emmc-overlay.dtb/dtb=am335x-boneblack-emmc-overlay.dtb/gi' /boot/uEnv.txt
+
 
 # ============================================================
 # Check kernel version
@@ -40,6 +47,12 @@ fi
 if ! fgrep -q "uio_pruss" "/etc/modules"; then
   echo "Adding Realtime module."
   sudo sh -c "echo "uio_pruss" >> /etc/modules"
+fi
+
+if [ ! -e "$LOGPATH/reboot.log" ]; then
+  echo "Some error has occured. Please check that kernel 3.8.X is installed next time."
+  touch "$LOGPATH/reboot.log"
+  echo "kernel" > $LOGPATH/reboot.log
 fi
 
 # ============================================================
