@@ -58,12 +58,12 @@ fi
 # ============================================================
 # Install TPM and update GCC if necessary
 # ============================================================
-if ! fgrep "tpm" "$LOGPATH/reboot.log"; then
+if ! fgrep -q "tpm" "$LOGPATH/reboot.log"; then
   # Initialize TPM
   source $SCRIPTPATH/tpm.sh
 fi
 
-if ! fgrep "gcc" "$LOGPATH/reboot.log"; then
+if ! fgrep -q "gcc" "$LOGPATH/reboot.log"; then
   # Initialize TPM
   source $SCRIPTPATH/gcc.sh
 fi
