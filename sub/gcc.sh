@@ -25,7 +25,7 @@ echo "-------- INSTALL GCC --------" > $LOGPATH/gcc.log
 echo -ne "Done!\nInstalling GCC... "
 sudo DEBIAN_FRONTEND=noninteractive apt-get -q -y install -t testing gcc >> $LOGPATH/gcc.log 2>&1
 if [ $? -ne 0 ]; then
-  echo -e "\nAn error occured during installtion. See logfile gcc.log for details." 1>&2
+  echo -e "\nAn error occured during installation. See logfile gcc.log for details." 1>&2
   exit 1
 fi
 
@@ -33,7 +33,7 @@ echo "-------- INSTALL G++ --------" >> $LOGPATH/gcc.log
 echo -ne "Done!\nInstalling G++... "
 sudo DEBIAN_FRONTEND=noninteractive apt-get -q -y install -t testing g++ >> $LOGPATH/gcc.log 2>&1
 if [ $? -ne 0 ]; then
-  echo -e "\nAn error occured during installtion. See logfile gcc.log for details." 1>&2
+  echo -e "\nAn error occured during installation. See logfile gcc.log for details." 1>&2
   exit 1
 fi
 echo  "Done!"
