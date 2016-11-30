@@ -68,7 +68,7 @@ fi
 # ============================================================
 # Install Device Encryption Helper
 # ============================================================
-if ! fgrep -q "tpm" "$LOGPATH/finished"; then
+if ! fgrep -q "crypto" "$LOGPATH/finished"; then
   # Install crypto stuff
   source $SCRIPTPATH/crypto.sh
 fi

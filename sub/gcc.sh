@@ -14,7 +14,7 @@ Pin: release a=testing
 Pin-Priority: 100" >> /etc/apt/preferences'
 
 echo -ne "Done!\nThe following operations may take some time to finish. Please don't cancel the script.\nUpdating repositories... "
-sudo DEBIAN_FRONTEND=noninteractive apt-get -q update > /dev/null
+sudo DEBIAN_FRONTEND=noninteractive apt-get -q update > /dev/null 2>&1
 if [ $? -ne 0 ]; then
   echo -e "\nAn error occured during repository update. See logfile gcc.log for details." 1>&2
   exit 1
