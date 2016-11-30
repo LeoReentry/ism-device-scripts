@@ -19,6 +19,9 @@ THISPATH=$(dirname "$SCRIPT")
 LOGPATH="$THISPATH/log"
 SCRIPTPATH="$THISPATH/sub"
 
+# Add home variable manually because sudo changes it to /root
+HOMEVAR=/home/debian
+
 # Create folder for logfiles
 if [ ! -d "$LOGPATH" ]; then
   mkdir $LOGPATH
@@ -27,6 +30,7 @@ fi
 # Set path variables as environment variables
 export LOGPATH
 export SCRIPTPATH
+export HOMEVAR
 # Disable HDMI but enable eMMC overlay
 # sudo sed -i 's/#dtb=am335x-boneblack-emmc-overlay.dtb/dtb=am335x-boneblack-emmc-overlay.dtb/gi' /boot/uEnv.txt
 
@@ -71,4 +75,26 @@ fi
 if ! fgrep -q "crypto" "$LOGPATH/finished"; then
   # Install crypto stuff
   source $SCRIPTPATH/crypto.sh
+fi
+
+# ============================================================
+# Reset TPM
+# ============================================================
+if ! fgrep -q "cape-init" "$LOGPATH/finished"; then
+  echo "-------- GIT CLONE cryptocape-init --------" >> $LOGPATH/crypto.log
+  cd $HOMEVAR
+  git clone https://github.com/cryptotronix/cryptocape-init.git >> crypto.log 2>&1
+  cd cryptocape-init
+  echo "Ok, we are now clearing the TPM, you might be asked for a password."
+  echo -n "This process cannot be reverted. If you already own the TPM, you can cancel this. You might be asked this question again after reboot. Continue (y/n)? "
+  read answer
+  if [ $answer = "y" ];then
+    source ./tpm_clear_own.sh
+    owned = cat /sys/class/misc/tpm0/device/owned
+    if [ $owned -eq 1 ]; then
+      echo "cape-init" >> $LOGPATH/finished
+      # Make user debian owner of init functions
+      sudo chown debian:debian -R $HOMEVAR/cryptocape-init
+    fi
+  fi
 fi

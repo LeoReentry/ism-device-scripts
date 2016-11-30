@@ -2,9 +2,6 @@
 
 # This script will install the cryptographic stuff used by the device
 
-# Add home variable manually because sudo changes it to /root
-HOMEVAR=/home/debian
-
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 echo -e "\t\tInstall cryptographic helpers"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
@@ -42,7 +39,7 @@ if [ $? -ne 0 ]; then
   echo -e "\nAn error occured during installtion. See logfile crypto.log for details." 1>&2
   exit 1
 fi
-echo -e "Done!\nRebooting..."
+echo -e "Done!\nWe have to reboot to talk to the TPM..."
 
 # Create alias for the encryption helper
 echo "alias deh=$HOMEVAR/ism-device-crypto/deh" >> $HOMEVAR/.bash_aliases
@@ -52,5 +49,8 @@ source $HOMEVAR/.bash_aliases
 
 # Add finish flag
 echo "crypto" >> $LOGPATH/finished
+# Make debian user owner of everything we just did so they can use it properly
+cd $HOMEVAR
+sudo chown -R debian:debian ism-device-crypto/
 # Reboot
 sudo reboot
