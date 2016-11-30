@@ -32,7 +32,7 @@ export SCRIPTPATH
 
 
 # ============================================================
-# Check kernel version
+# Downgrade Kernel to 3.8
 # ============================================================
 # If kernel isn't version 3.8.X, we'll have to update it
 uname -r | grep -qP "3\.8\.\d{1,}-[\w\d]{1,}"
@@ -40,30 +40,35 @@ uname -r | grep -qP "3\.8\.\d{1,}-[\w\d]{1,}"
 if [ $? -eq  1 ]; then
   # Update kernel
   source $SCRIPTPATH/kernel.sh
-fi
-
-# Ok, kernel is installed
-# Check that realtime module is defined as startup module
-if ! fgrep -q "uio_pruss" "/etc/modules"; then
+# ============================================================
+# Add Realtime module to startup modules only if kernel 3.8
+# is installed
+# ============================================================
+elif ! fgrep -q "uio_pruss" "/etc/modules"; then
   echo "Adding Realtime module."
-  sudo sh -c "echo "uio_pruss" >> /etc/modules"
-fi
-
-if [ ! -e "$LOGPATH/reboot.log" ]; then
-  echo "Some error has occured. Please check that kernel 3.8.X is installed next time."
-  touch "$LOGPATH/reboot.log"
-  echo "kernel" > $LOGPATH/reboot.log
+  sudo sh -c "echo 'uio_pruss' >> /etc/modules"
 fi
 
 # ============================================================
-# Install TPM and update GCC if necessary
+# Install TPM
 # ============================================================
 if ! fgrep -q "tpm" "$LOGPATH/reboot.log"; then
   # Initialize TPM
   source $SCRIPTPATH/tpm.sh
 fi
 
+# ============================================================
+# Update GCC and G++ from Debian Testing repositories
+# ============================================================
 if ! fgrep -q "gcc" "$LOGPATH/reboot.log"; then
-  # Initialize TPM
+  # Install GCC and G++
   source $SCRIPTPATH/gcc.sh
+fi
+
+# ============================================================
+# Install Device Encryption Helper
+# ============================================================
+if ! fgrep -q "tpm" "$LOGPATH/reboot.log"; then
+  # Install crypto stuff
+  source $SCRIPTPATH/crypto.sh
 fi

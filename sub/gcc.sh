@@ -20,7 +20,6 @@ echo -ne "Done!\nInstalling GCC... "
 sudo DEBIAN_FRONTEND=noninteractive apt-get -q -y install -t testing gcc >> $LOGPATH/gcc.log
 echo -ne "Done!\nInstalling G++... "
 sudo DEBIAN_FRONTEND=noninteractive apt-get -q -y install -t testing g++ >> $LOGPATH/gcc.log
-echo -e "Done!\nRebooting..."
+echo  "Done!"
 # Reboot
 echo "gcc" >> $LOGPATH/reboot.log
-sudo reboot
