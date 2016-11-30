@@ -15,16 +15,24 @@ printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 echo -n "Downloading Kernel Versions... "
 # Log
 echo "-------- PULL KERNEL VERSIONS --------" > $LOGPATH/kernel.log
-git pull -q >> $LOGPATH/kernel.log
+git pull >> $LOGPATH/kernel.log 2>&1
+if [ $? -ne 0 ]; then
+  echo -e "\nAn error occured during kernel download. See logfile kernel.log for details." 1>&2
+  exit 1
+fi
 
-echo -ne "Done!\nInstalling Kernel v3.8.X with full cape support. This may take up to 10 minutes... "
-# Log
 echo "-------- UPDATE KERNEL SCRIPT --------" >> $LOGPATH/kernel.log
+echo -ne "Done!\nInstalling Kernel v3.8.X with full cape support. This may take up to 10 minutes... "
 # Install kernel
 sudo ./update_kernel.sh --bone-channel --stable >> $LOGPATH/kernel.log 2>&1
-echo -e "Done!\nRestarting in 10 seconds. Press ^c to cancel."
-sleep 10
+if [ $? -ne 0 ]; then
+  echo -e "\nAn error occured during kernel installation. See logfile kernel.log for details." 1>&2
+  exit 1
+fi
+echo "Done!"
+
+# Finish
+echo "kernel" > $LOGPATH/finished
 # Reboot
-echo "Restarting now..."
-echo "kernel" > $LOGPATH/reboot.log
-sudo shutdown -r now
+# echo "Restarting now..."
+# sudo shutdown -r now

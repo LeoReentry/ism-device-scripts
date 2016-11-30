@@ -52,7 +52,7 @@ fi
 # ============================================================
 # Install TPM
 # ============================================================
-if ! fgrep -q "tpm" "$LOGPATH/reboot.log"; then
+if ! fgrep -q "tpm" "$LOGPATH/finished"; then
   # Initialize TPM
   source $SCRIPTPATH/tpm.sh
 fi
@@ -60,7 +60,7 @@ fi
 # ============================================================
 # Update GCC and G++ from Debian Testing repositories
 # ============================================================
-if ! fgrep -q "gcc" "$LOGPATH/reboot.log"; then
+if ! fgrep -q "gcc" "$LOGPATH/finished"; then
   # Install GCC and G++
   source $SCRIPTPATH/gcc.sh
 fi
@@ -68,7 +68,7 @@ fi
 # ============================================================
 # Install Device Encryption Helper
 # ============================================================
-if ! fgrep -q "tpm" "$LOGPATH/reboot.log"; then
+if ! fgrep -q "tpm" "$LOGPATH/finished"; then
   # Install crypto stuff
   source $SCRIPTPATH/crypto.sh
 fi

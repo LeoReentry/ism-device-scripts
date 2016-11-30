@@ -31,7 +31,7 @@ echo "alias deh=~/ism-device-crypto/deh" >> ~/.bash_aliases
 # We just need to reload the data
 source ~/.bash_aliases
 
-# Add reboot flag
-echo "crypto" >> $LOGPATH/reboot.log
-
+# Add finish flag
+echo "crypto" >> $LOGPATH/finished
+# Reboot
 sudo reboot
