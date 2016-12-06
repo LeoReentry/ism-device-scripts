@@ -7,7 +7,7 @@ echo -e "\t\tInstall cryptographic helpers"
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 
 echo "-------- INSTALL CMAKE --------" > $LOGPATH/crypto.log
-echo -n "Installing CMAKE..."
+echo -n "Installing CMAKE... "
 sudo DEBIAN_FRONTEND=noninteractive apt-get -q -y install cmake >> $LOGPATH/crypto.log 2>&1
 if [ $? -ne 0 ]; then
   echo -e "\nAn error occured during installation. See logfile crypto.log for details." 1>&2
@@ -15,7 +15,7 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "-------- GIT CLONE --------" >> $LOGPATH/crypto.log
-echo -ne "Done!\nDownloading program data..."
+echo -ne "Done!\nDownloading program data... "
 cd $HOMEVAR/
 git clone https://github.com/LeoReentry/ism-device-crypto.git >> $LOGPATH/crypto.log 2>&1
 if [ $? -ne 0 ]; then
@@ -24,7 +24,7 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "-------- CMAKE --------" >> $LOGPATH/crypto.log
-echo -ne "Done!\nPreparing project..."
+echo -ne "Done!\nPreparing project... "
 cd $HOMEVAR/ism-device-crypto
 cmake ./ >> $LOGPATH/crypto.log 2>&1
 if [ $? -ne 0 ]; then
@@ -33,13 +33,13 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "-------- MAKE --------" >> $LOGPATH/crypto.log
-echo -ne "Done!\nCompiling project..."
+echo -ne "Done!\nCompiling project... "
 sudo make >> $LOGPATH/crypto.log 2>&1
 if [ $? -ne 0 ]; then
   echo -e "\nAn error occured during installtion. See logfile crypto.log for details." 1>&2
   exit 1
 fi
-echo -e "Done!\nWe have to reboot to talk to the TPM..."
+echo -e "Done!\nWe have to reboot to talk to the TPM... "
 
 # Create alias for the encryption helper
 echo "alias deh=$HOMEVAR/ism-device-crypto/deh" >> $HOMEVAR/.bash_aliases
