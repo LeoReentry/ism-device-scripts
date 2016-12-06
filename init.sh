@@ -49,7 +49,7 @@ if [ $? -eq  1 ]; then
 # is installed
 # ============================================================
 elif ! fgrep -q "uio_pruss" "/etc/modules"; then
-  echo "Adding Realtime module."
+  echo "Adding Realtime module... Done!"
   sudo sh -c "echo 'uio_pruss' >> /etc/modules"
 fi
 
@@ -75,6 +75,14 @@ fi
 if ! fgrep -q "crypto" "$LOGPATH/finished"; then
   # Install crypto stuff
   source $SCRIPTPATH/crypto.sh
+fi
+
+# ============================================================
+# Do a cleanup of the BBB
+# ============================================================
+if ! fgrep -q "clean" "$LOGPATH/finished"; then
+  # Cleanup
+  source $SCRIPTPATH/clean.sh
 fi
 
 # ============================================================
