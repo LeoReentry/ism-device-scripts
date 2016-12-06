@@ -82,9 +82,7 @@ fi
 # ============================================================
 if ! fgrep -q "cape-init" "$LOGPATH/finished"; then
   echo "-------- GIT CLONE cryptocape-init --------" >> $LOGPATH/crypto.log
-  cd $HOMEVAR
-  git clone https://github.com/cryptotronix/cryptocape-init.git >> crypto.log 2>&1
-  cd cryptocape-init
+  cd $HOMEVAR/cryptocape-init
   echo "Ok, we are now clearing the TPM, you might be asked for a password."
   echo -n "This process cannot be reverted. If you already own the TPM, you can cancel this. You might be asked this question again after reboot. Continue (y/n)? "
   read answer

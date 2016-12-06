@@ -1,0 +1,3 @@
+[submodule "cryptocape-init"]
+	path = cryptocape-init
+	url = https://github.com/LeoReentry/cryptocape-init.git
