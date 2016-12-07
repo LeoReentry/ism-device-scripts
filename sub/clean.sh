@@ -49,6 +49,7 @@ sudo rm -rf /opt/cloud9 >> $LOGPATH/clean.log 2>&1                       #source
 sudo rm /etc/default/cloud9 >> $LOGPATH/clean.log 2>&1                   #environment variables
 sudo rm /lib/systemd/system/cloud9.* >> $LOGPATH/clean.log 2>&1          #systemd scripts
 sudo systemctl daemon-reload >> $LOGPATH/clean.log 2>&1                  #restart/reload systemctl deamon
+sudo DEBIAN_FRONTEND=noninteractive apt-get -q -y purge c9-core-installer >> $LOGPATH/clean.log 2>&1
 
 echo "-------- REMOVE BONESCRIPT --------" >> $LOGPATH/clean.log
 echo -ne "Done!\nRemoving Bonescript... "
@@ -61,6 +62,8 @@ sudo systemctl disable bonescript.socket >> $LOGPATH/clean.log 2>&1
 sudo rm /lib/systemd/system/bonescript* >> $LOGPATH/clean.log 2>&1                 #startup scripts
 sudo rm -rf /usr/local/lib/node_modules/bonescript >> $LOGPATH/clean.log 2>&1      #binaries
 sudo systemctl daemon-reload >> $LOGPATH/clean.log 2>&1                            #restart/reload systemctl deamon
+sudo DEBIAN_FRONTEND=noninteractive apt-get -q -y purge bonescript >> $LOGPATH/clean.log 2>&1
+sudo DEBIAN_FRONTEND=noninteractive apt-get -q -y purge bone101 >> $LOGPATH/clean.log 2>&1
 
 
 echo "-------- REMOVE NODE-RED --------" >> $LOGPATH/clean.log
@@ -71,6 +74,7 @@ sudo systemctl disable node-red.service >> $LOGPATH/clean.log 2>&1
 sudo systemctl disable node-red.socket >> $LOGPATH/clean.log 2>&1
 sudo npm remove -g node-red >> $LOGPATH/clean.log 2>&1
 sudo systemctl daemon-reload >> $LOGPATH/clean.log 2>&1
+sudo DEBIAN_FRONTEND=noninteractive apt-get -q -y purge bb-node-red-installer >> $LOGPATH/clean.log 2>&1
 
 echo -e "Done!\nCleanup finished!"
 echo "clean" >> $LOGPATH/finished
