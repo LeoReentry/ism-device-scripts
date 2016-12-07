@@ -41,16 +41,13 @@ if [ $? -ne 0 ]; then
 fi
 echo -e "Done!\nWe have to reboot to talk to the TPM... "
 
-# Create alias for the encryption helper
-echo "alias deh=$HOMEVAR/ism-device-crypto/deh" >> $HOMEVAR/.bash_aliases
-# .bash_aliases is already loaded in .bashrc
-# We just need to reload the data
-source $HOMEVAR/.bash_aliases
 
 # Add finish flag
 echo "crypto" >> $LOGPATH/finished
 # Make debian user owner of everything we just did so they can use it properly
 cd $HOMEVAR
 sudo chown -R debian:debian ism-device-crypto/
+# Copy executable to binaries path
+sudo cp deh /usr/local/bin
 # Reboot
 sudo reboot
