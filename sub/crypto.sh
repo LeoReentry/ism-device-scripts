@@ -16,7 +16,7 @@ fi
 
 echo "-------- GIT CLONE --------" >> $LOGPATH/crypto.log
 echo -ne "Done!\nDownloading program data... "
-cd $HOMEVAR/
+cd $HOMEVAR
 git clone https://github.com/LeoReentry/ism-device-crypto.git >> $LOGPATH/crypto.log 2>&1
 if [ $? -ne 0 ]; then
   echo -e "\nAn error occured during download. See logfile crypto.log for details." 1>&2
@@ -36,7 +36,7 @@ echo "-------- MAKE --------" >> $LOGPATH/crypto.log
 echo -ne "Done!\nCompiling project... "
 sudo make >> $LOGPATH/crypto.log 2>&1
 if [ $? -ne 0 ]; then
-  echo -e "\nAn error occured during installtion. See logfile crypto.log for details." 1>&2
+  echo -e "\nAn error occured during installation. See logfile crypto.log for details." 1>&2
   exit 1
 fi
 echo -e "Done!\nWe have to reboot to talk to the TPM... "
@@ -48,6 +48,4 @@ echo "crypto" >> $LOGPATH/finished
 cd $HOMEVAR
 sudo chown -R debian:debian ism-device-crypto/
 # Copy executable to binaries path
-sudo cp deh /usr/local/bin
-# Reboot
-sudo reboot
+sudo cp $HOMEVAR/ism-device-crypto/deh /usr/local/bin

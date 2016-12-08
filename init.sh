@@ -61,13 +61,15 @@ if ! fgrep -q "tpm" "$LOGPATH/finished"; then
   source $SCRIPTPATH/tpm.sh
 fi
 
-# ============================================================
-# Update GCC and G++ from Debian Testing repositories
-# ============================================================
-if ! fgrep -q "gcc" "$LOGPATH/finished"; then
-  # Install GCC and G++
-  source $SCRIPTPATH/gcc.sh
-fi
+
+# GCC update currently not needed
+# # ============================================================
+# # Update GCC and G++ from Debian Testing repositories
+# # ============================================================
+# if ! fgrep -q "gcc" "$LOGPATH/finished"; then
+#   # Install GCC and G++
+#   source $SCRIPTPATH/gcc.sh
+# fi
 
 # ============================================================
 # Install Device Encryption Helper
@@ -84,6 +86,9 @@ if ! fgrep -q "clean" "$LOGPATH/finished"; then
   # Cleanup
   source $SCRIPTPATH/clean.sh
 fi
+
+# Reboot before talking to TPM
+sudo reboot
 
 # ============================================================
 # Reset TPM
