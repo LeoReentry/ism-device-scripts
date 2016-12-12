@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# git clone --recursive https://github.com/LeoReentry/ism-device-scripts.git
 # ============================================================
 # ============================================================
 # Initialization script for Beaglebone
@@ -85,6 +85,14 @@ fi
 if ! fgrep -q "clean" "$LOGPATH/finished"; then
   # Cleanup
   source $SCRIPTPATH/clean.sh
+fi
+
+# ============================================================
+# Install NodeJS and get configuration server
+# ============================================================
+if ! fgrep -q "server" "$LOGPATH/finished"; then
+  # Install crypto stuff
+  source $SCRIPTPATH/server.sh
 fi
 
 # Reboot before talking to TPM
