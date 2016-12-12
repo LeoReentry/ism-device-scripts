@@ -72,11 +72,22 @@ fi
 # fi
 
 # ============================================================
+# Install Device Software
+# ============================================================
+if ! fgrep -q "device" "$LOGPATH/finished"; then
+  # Install crypto stuff
+  source $SCRIPTPATH/device.sh
+fi
+
+# ============================================================
 # Install Device Encryption Helper
 # ============================================================
 if ! fgrep -q "crypto" "$LOGPATH/finished"; then
   # Install crypto stuff
   source $SCRIPTPATH/crypto.sh
+  # Copy libraries
+  sudo cp $HOMEVAR/ism-device-crypto/libdevicecrypto.so $HOMEVAR/ismdevice-armhf/lib
+  sudo cp $HOMEVAR/ism-device-crypto/crypto.h $HOMEVAR/ismdevice-armhf/inc
 fi
 
 # ============================================================
