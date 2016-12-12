@@ -55,4 +55,8 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
+# Create symlink to library and header file
+ln -s -t $HOMEVAR/ismdevice-armhf/lib $HOMEVAR/ism-device-crypto/libdevicecrypto.so
+ln -s -t $HOMEVAR/ismdevice-armhf/inc $HOMEVAR/ism-device-crypto/crypto.h
+
 echo "device" >> finished

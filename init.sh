@@ -85,9 +85,6 @@ fi
 if ! fgrep -q "crypto" "$LOGPATH/finished"; then
   # Install crypto stuff
   source $SCRIPTPATH/crypto.sh
-  # Copy libraries
-  sudo cp $HOMEVAR/ism-device-crypto/libdevicecrypto.so $HOMEVAR/ismdevice-armhf/lib
-  sudo cp $HOMEVAR/ism-device-crypto/crypto.h $HOMEVAR/ismdevice-armhf/inc
 fi
 
 # ============================================================

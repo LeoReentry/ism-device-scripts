@@ -47,5 +47,5 @@ echo "crypto" >> $LOGPATH/finished
 # Make debian user owner of everything we just did so they can use it properly
 cd $HOMEVAR
 sudo chown -R debian:debian ism-device-crypto/
-# Copy executable to binaries path
-sudo cp $HOMEVAR/ism-device-crypto/deh /usr/local/bin
+# Create symlink to executable
+sudo ln -s -t /usr/local/bin $HOMEVAR/ism-device-crypto/deh
