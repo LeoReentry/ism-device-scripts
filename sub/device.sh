@@ -4,14 +4,14 @@
 
 echo "-------- INSTALL DEPENDENCIES --------" > $LOGPATH/device.log
 echo -n "Installing Dependencies... "
-sudo DEBIAN_FRONTEND=noninteractive apt-get install libboost-all-dev libssl-dev uuid-dev libcurl4-openssl-dev libxml++2.6-dev libglibmm-2.4-dev >> $LOGPATH/device.log 2>&1
+sudo DEBIAN_FRONTEND=noninteractive apt-get -q -y install libboost-all-dev libssl-dev uuid-dev libcurl4-openssl-dev libxml++2.6-dev libglibmm-2.4-dev >> $LOGPATH/device.log 2>&1
 if [ $? -ne 0 ]; then
   echo -e "\nAn error occured during installation. See logfile device.log for details." 1>&2
   exit 1
 fi
 
 echo "-------- GIT CLONE --------" >> $LOGPATH/device.log
-echo -ne "Done!\nDownloading program data..."
+echo -ne "Done!\nDownloading program data... "
 git clone https://github.com/c-armbrust/ismdevice-armhf >> $LOGPATH/device.log 2>&1
 if [ $? -ne 0 ]; then
   echo -e "\nAn error occured during downloading. See logfile device.log for details." 1>&2
@@ -19,7 +19,7 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "-------- INSTALL UEYE SDK --------" >> $LOGPATH/device.log
-echo -ne "Done!\nInstalling uEyeSDK..."
+echo -ne "Done!\nInstalling uEyeSDK... "
 if [ -f $HOMEVAR/uEyeSDK-4.8* ] && ! fgrep -q "ueye" "/etc/modules"; then
   # Unpack archive
   cd $HOMEVAR
