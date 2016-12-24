@@ -47,6 +47,15 @@ else
 fi
 
 
+cd $HOMEVAR/ismdevice-armhf
+echo "-------- CMAKE --------" >> $LOGPATH/device.log
+echo -ne "Done!\Preparing compiler... "
+sudo cmake ./ >> $LOGPATH/device.log 2>&1
+if [ $? -ne 0 ]; then
+  echo -e "\nAn error occured during cmake execution. See logfile device.log for details.\nPlease make sure all shared libraries are in the lib folder." 1>&2
+  exit 1
+fi
+
 echo "-------- MAKE --------" >> $LOGPATH/device.log
 echo -ne "Done!\nCompiling project... "
 sudo make >> $LOGPATH/device.log 2>&1
@@ -56,7 +65,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # Create symlink to library and header file
-ln -s -t $HOMEVAR/ismdevice-armhf/lib $HOMEVAR/ism-device-crypto/libdevicecrypto.so
-ln -s -t $HOMEVAR/ismdevice-armhf/inc $HOMEVAR/ism-device-crypto/crypto.h
+ln -s -t $HOMEVAR/ismdevice-armhf/lib/ $HOMEVAR/ism-device-crypto/libdevicecrypto.so
+ln -s -t $HOMEVAR/ismdevice-armhf/inc/ $HOMEVAR/ism-device-crypto/crypto.h
 
 echo "device" >> finished
