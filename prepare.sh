@@ -10,9 +10,20 @@ if [[ $EUID -ne 0 ]]; then
     echo "You must be root to run this script"
     exit 1
 fi
-# Remove all SSH Keys
-sudo rm -rf /etc/ssh/ssh_host*
-# Generate new RSA 4096 key
-sudo ssh-keygen -b 4096 -t rsa -f /etc/ssh/ssh_host_rsa_key -N ""
-# Generate ED25519 key (256 bits)
-sudo ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -N ""
+
+# ============================================================
+# Set general path variables and settings
+# ============================================================
+SCRIPT=$(readlink -f "$0")
+THISPATH=$(dirname "$SCRIPT")
+LOGPATH="$THISPATH/log"
+SCRIPTPATH="$THISPATH/sub"
+
+# Add home variable manually because sudo changes it to /root
+HOMEVAR=/home/debian
+
+# Set redo to true to indicate every step should be done even
+# though it's already been logged as completed
+redo=true
+
+source $SCRIPTPATH/postflash.sh
