@@ -43,7 +43,14 @@ echo -e "Done!\nNow we need to create a certificate. This will take a while and 
 echo "Finally, we'll generate some random data for our session secret."
 echo SESSION_SECRET=`openssl rand -base64 21` > .env
 
-echo "Okay, we're done. You can start the server running sudo node server.js"
+echo "We're going to add a service for the server to be running as daemon."
+sudo cp $FILEPATH/ismserver.service /etc/systemd/system/
+# Allow node to use ports lower than 1024 in user mode
+sudo setcap 'cap_net_bind_service=+ep' $(readlink -f $(which node))
+# Generate node daemon
+sudo systemctl daemon-reload
+sudo systemctl enable ismserver
+echo "Okay, we're done."
 
 # Finish
 echo "server" > $LOGPATH/finished

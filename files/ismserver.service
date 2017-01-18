@@ -1,0 +1,18 @@
+[Unit]
+Description=ISM Device Server
+After=network.target
+
+[Service]
+ExecStart=/home/debian/ism-device-server/server.js
+Restart=always
+User=debian
+Group=debian
+Restart=always
+RestartSec=10s                       # Restart service after 10 seconds if node service crashes
+SyslogIdentifier=ism-server
+Environment=PATH=/usr/bin:/usr/local/bin
+Environment=NODE_ENV=production
+WorkingDirectory=/home/debian/ism-device-server
+
+[Install]
+WantedBy=multi-user.target
