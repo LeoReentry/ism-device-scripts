@@ -18,6 +18,7 @@ SCRIPT=$(readlink -f "$0")
 THISPATH=$(dirname "$SCRIPT")
 LOGPATH="$THISPATH/log"
 SCRIPTPATH="$THISPATH/sub"
+FILEPATH="$THISPATH/files"
 
 # Add home variable manually because sudo changes it to /root
 HOMEVAR=/home/debian
@@ -101,6 +102,14 @@ fi
 if ! fgrep -q "server" "$LOGPATH/finished"; then
   # Install crypto stuff
   source $SCRIPTPATH/server.sh
+fi
+
+# ============================================================
+# Configure SSH server
+# ============================================================
+if ! fgrep -q "sshconfig" "$LOGPATH/finished"; then
+  # Install crypto stuff
+  source $SCRIPTPATH/sshconfig.sh
 fi
 
 # Reboot before talking to TPM

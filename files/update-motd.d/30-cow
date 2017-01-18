@@ -1,0 +1,6 @@
+#!/bin/bash
+echo
+declare -a expressions=("sheep" "default" "duck" "bud-frogs" "snowman" "tux")
+selectedexpression=${expressions[$RANDOM % ${#expressions[@]} ]}
+exec /usr/games/fortune | /usr/games/cowsay -f $selectedexpression
+echo
