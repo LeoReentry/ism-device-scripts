@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Print some readable output to shell
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+echo -e "\t\tConfigure SSH server"
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 
 echo -n "Installing extra stuff... "
 echo "-------- INSTALL COWSAY FORTUNE --------" > $LOGPATH/sshconfig.log

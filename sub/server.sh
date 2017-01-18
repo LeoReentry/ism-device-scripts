@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Print some readable output to shell
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+echo -e "\t\tInstall device server"
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+
 # Server installation script
 
 echo "-------- UPDATE REPOSITORIES FOR NODEJS --------" > $LOGPATH/server.log

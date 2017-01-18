@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Print some readable output to shell
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+echo -e "\t\tInstall device software"
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 # This script will install the device software
 
 echo "-------- INSTALL DEPENDENCIES --------" > $LOGPATH/device.log

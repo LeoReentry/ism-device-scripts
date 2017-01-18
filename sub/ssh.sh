@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Print some readable output to shell
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+echo -e "\t\tRenew SSH Keys"
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+
 echo -n "Removing all SSH keys... "
 echo "-------- REMOVE SSH KEYS --------" >> $LOGPATH/ssh.log
 # Remove all SSH Keys
