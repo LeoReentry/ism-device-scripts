@@ -18,12 +18,15 @@ echo -ne "Done!\nGenerating dynamic Message of the Day... "
 # Update PAM file
 sudo rm -f /etc/pam.d/sshd
 sudo cp $FILEPATH/sshd /etc/pam.d
+# Update SSH config file
+sudo rm -f /etc/ssh/sshd_config
+sudo cp $FILEPATH/sshd_config /etc/ssh
 # Remove currently existing greetings
 sudo rm -rf /etc/update-motd.d
 sudo cp -r $FILEPATH/update-motd.d /etc/
 # Remove static MOTD
 sudo rm /etc/motd
-sudo echo "" > /run/motd
+sudo echo "" | sudo dd of=/run/motd
 sudo ln -s -t /etc /run/motd
 # Remove banner
 # Use dd because we cannot sudo a redirect operator
@@ -31,6 +34,6 @@ echo "" | sudo dd of=/etc/issue.net
 
 echo -ne "Done!\nRestarting SSH server... "
 sudo systemctl restart sshd.service
-
+echo "Done!"
 
 echo sshconfig >> $LOGPATH/finished

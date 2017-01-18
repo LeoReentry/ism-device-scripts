@@ -13,6 +13,7 @@ curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash - >> $LOGPATH/serve
 
 echo "-------- INSTALL NODEJS --------" >> $LOGPATH/server.log
 echo -ne "Done!\nInstalling Node.js... "
+sudo DEBIAN_FRONTEND=noninteractive apt-get -q -y update >> $LOGPATH/server.log 2>&1
 sudo DEBIAN_FRONTEND=noninteractive apt-get -q -y install nodejs >> $LOGPATH/server.log 2>&1
 if [ $? -ne 0 ]; then
   echo -e "\nAn error occured during installation. See logfile server.log for details." 1>&2
@@ -53,4 +54,4 @@ sudo systemctl enable ismserver
 echo "Okay, we're done."
 
 # Finish
-echo "server" > $LOGPATH/finished
+echo "server" >> $LOGPATH/finished

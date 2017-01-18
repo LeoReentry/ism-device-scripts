@@ -73,19 +73,19 @@ fi
 # fi
 
 # ============================================================
-# Install Device Software
-# ============================================================
-if ! fgrep -q "device" "$LOGPATH/finished"; then
-  # Install crypto stuff
-  source $SCRIPTPATH/device.sh
-fi
-
-# ============================================================
 # Install Device Encryption Helper
 # ============================================================
 if ! fgrep -q "crypto" "$LOGPATH/finished"; then
   # Install crypto stuff
   source $SCRIPTPATH/crypto.sh
+fi
+
+# ============================================================
+# Install Device Software
+# ============================================================
+if ! fgrep -q "device" "$LOGPATH/finished"; then
+  # Install crypto stuff
+  source $SCRIPTPATH/device.sh
 fi
 
 # ============================================================
@@ -100,7 +100,7 @@ fi
 # Install NodeJS and get configuration server
 # ============================================================
 if ! fgrep -q "server" "$LOGPATH/finished"; then
-  # Install crypto stuff
+  # Install device server
   source $SCRIPTPATH/server.sh
 fi
 
@@ -108,12 +108,25 @@ fi
 # Configure SSH server
 # ============================================================
 if ! fgrep -q "sshconfig" "$LOGPATH/finished"; then
-  # Install crypto stuff
+  # Configure ssh
   source $SCRIPTPATH/sshconfig.sh
 fi
 
-# Reboot before talking to TPM
-sudo reboot
+# ============================================================
+# Reboot
+# ============================================================
+if ! fgrep -q "reboot" "$LOGPATH/finished"; then
+  # Make standard user owner of everything
+  sudo chown 1000:1000 -R $HOMEVAR
+
+  printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+  echo -e "\t\tREBOOT"
+  printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+  echo "We'll reboot now. Please wait a while, we'll be back shortly."
+  # Reboot before talking to TPM
+  echo "reboot" >> $LOGPATH/finished
+  sudo reboot now & exit
+fi
 
 
 # ============================================================

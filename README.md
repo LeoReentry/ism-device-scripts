@@ -9,6 +9,8 @@ git clone --recursive https://github.com/LeoReentry/ism-device-scripts.git
 ```
 
 # Device Initialization
+Before executing the device initalization script, make sure that you have the ueye SDK tgz file in the BeagleBone Black's home folder and that the shared libraries are in ~/lib
+
 To initialize a fresh Debian Installation, run
 ```shell
 cd ism-device-scripts

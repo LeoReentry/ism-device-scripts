@@ -22,7 +22,7 @@ if [ $redo = true ] || ! fgrep -q "cape-init" "$LOGPATH/finished"; then
     if [ $owned -eq 1 ]; then
       echo "cape-init" >> $LOGPATH/finished
       # Make user debian owner of init functions
-      sudo chown debian:debian -R $HOMEVAR/cryptocape-init
+      sudo chown debian:debian -R $HOMEVAR/ism-device-scripts/cryptocape-init
     fi
   fi
 fi

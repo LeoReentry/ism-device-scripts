@@ -14,20 +14,26 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-echo "-------- GIT CLONE --------" >> $LOGPATH/device.log
-echo -ne "Done!\nDownloading program data... "
-git clone https://github.com/c-armbrust/ismdevice-armhf >> $LOGPATH/device.log 2>&1
-if [ $? -ne 0 ]; then
-  echo -e "\nAn error occured during downloading. See logfile device.log for details." 1>&2
-  exit 1
+cd $HOMEVAR
+
+if ! fgrep -q "devcode" "$LOGPATH/finished"; then
+  echo "-------- GIT CLONE --------" >> $LOGPATH/device.log
+  echo -ne "Done!\nDownloading program data... "
+  git clone https://github.com/c-armbrust/ismdevice-armhf >> $LOGPATH/device.log 2>&1
+  if [ $? -ne 0 ]; then
+    echo -e "\nAn error occured during downloading. See logfile device.log for details." 1>&2
+    exit 1
+  fi
+  mv $HOMEVAR/lib $HOMEVAR/ismdevice-armhf/
+  echo "devcode" >> $LOGPATH/finished
 fi
 
-echo "-------- INSTALL UEYE SDK --------" >> $LOGPATH/device.log
-echo -ne "Done!\nInstalling uEyeSDK... "
-if [ -f $HOMEVAR/uEyeSDK-4.8* ] && ! fgrep -q "ueye" "/etc/modules"; then
+if [ -f $HOMEVAR/uEyeSDK-4.8* ] && ! fgrep -q "ueye" "/etc/modules" && ! fgrep -q "ueye" "$LOGPATH/finished"; then
+  echo "-------- INSTALL UEYE SDK --------" >> $LOGPATH/device.log
+  echo -ne "Done!\nInstalling uEyeSDK... \n"
   # Unpack archive
   cd $HOMEVAR
-  sudo tar -xzf uEyeSDK*.tar -C / >> $LOGPATH/device.log 2>&1
+  sudo tar -xzf uEyeSDK-4.8*.tgz -C / >> $LOGPATH/device.log 2>&1
   if [ $? -ne 0 ]; then
     echo -e "\nAn error occured during unpacking. See logfile device.log for details." 1>&2
     exit 1
@@ -46,14 +52,14 @@ if [ -f $HOMEVAR/uEyeSDK-4.8* ] && ! fgrep -q "ueye" "/etc/modules"; then
   fi
   echo "ueye" >> $LOGPATH/finished
 else
-  echo -e "Error!\nPlease copy the uEye SDK tarfile to $HOME"
+  echo -e "Error!\nPlease copy the uEye SDK tarfile to $HOMEVAR"
   exit 1
 fi
 
 
 cd $HOMEVAR/ismdevice-armhf
 echo "-------- CMAKE --------" >> $LOGPATH/device.log
-echo -ne "Done!\Preparing compiler... "
+echo -ne "Done!\nPreparing compiler... "
 sudo cmake ./ >> $LOGPATH/device.log 2>&1
 if [ $? -ne 0 ]; then
   echo -e "\nAn error occured during cmake execution. See logfile device.log for details.\nPlease make sure all shared libraries are in the lib folder." 1>&2
@@ -67,7 +73,7 @@ if [ $? -ne 0 ]; then
   echo -e "\nAn error occured during compilation. See logfile device.log for details.\nPlease make sure all shared libraries are in the lib folder." 1>&2
   exit 1
 fi
-
+echo "Done!"
 # Create symlink to library and header file
 ln -s -t $HOMEVAR/ismdevice-armhf/lib/ $HOMEVAR/ism-device-crypto/libdevicecrypto.so
 ln -s -t $HOMEVAR/ismdevice-armhf/inc/ $HOMEVAR/ism-device-crypto/crypto.h
