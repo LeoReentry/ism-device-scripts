@@ -32,6 +32,16 @@ sudo ln -s -t /etc /run/motd
 # Use dd because we cannot sudo a redirect operator
 echo "" | sudo dd of=/etc/issue.net
 
+echo -ne "Done!\nConfiguring SSH server... "
+iptables -N SSH
+iptables -A SSH -j LOG --log-level 7 --log-prefix "IPT:LOG SSH Attack detected: "
+iptables -A SSH -j DROP
+iptables -A INPUT -i eth0 -p tcp --dport 22 -m state --state NEW -m recent --name ssh --set
+iptables -A INPUT -i eth0 -p tcp --dport 22 -m state --state NEW -m recent --name ssh --update --seconds 300 --hitcount 4 -j SSH
+
+iptables-save > /root/ssh.fw
+cp $FILEPATH/iptables /etc/network/if-pre-up.d
+
 echo -ne "Done!\nRestarting SSH server... "
 sudo systemctl restart sshd.service
 echo "Done!"
