@@ -113,6 +113,26 @@ if ! fgrep -q "sshconfig" "$LOGPATH/finished"; then
 fi
 
 # ============================================================
+# Enable unattended Upgrades
+# ============================================================
+if ! fgrep -q "unattended" "$LOGPATH/finished"; then
+  printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+  echo -e "\t\tEnable automatic updates"
+  printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+
+  echo -n "Install package... "
+  # Enable unattended Upgrades
+  sudo DEBIAN_FRONTEND=noninteractive apt-get -q -y install unattended-upgrades > $LOGPATH/unattended.log 2>&1
+  if [ $? -ne 0 ]; then
+    echo -e "\nAn error occured during installation. See logfile unattended.log for details." 1>&2
+    exit 1
+  fi
+  echo -ne "Done!\nConfiguring... "
+  sudo dpkg-reconfigure -plow unattended-upgrades
+  echo "Done!"
+fi
+
+# ============================================================
 # Reboot
 # ============================================================
 if ! fgrep -q "reboot" "$LOGPATH/finished"; then
