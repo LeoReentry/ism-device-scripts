@@ -131,7 +131,8 @@ if ! fgrep -q "unattended" "$LOGPATH/finished"; then
   sudo dpkg-reconfigure -plow unattended-upgrades
   echo "Done!"
 fi
-
+# Move getsetting file to path
+sudo cp $THISPATH/getsetting /usr/local/bin
 # ============================================================
 # Reboot
 # ============================================================
