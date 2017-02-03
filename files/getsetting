@@ -3,26 +3,26 @@ import json
 import sys
 
 if len(sys.argv) is 1:
-        print "Usage:"
-        print sys.argv[0] + " setting.subsetting -- Reads from config.json file"
-        print sys.argv[0] + " setting.subsetting file.json -- Reads from a specified json file"
-        print "Example: getsetting publicKeyUrl"
-        print "Example: getsetting dependencies.jquery /home/debian/ism-device-server/package.json"
-        exit(1)
+	print "Usage:"
+	print sys.argv[0] + " setting.subsetting -- Reads from config.json file"
+	print sys.argv[0] + " setting.subsetting file.json -- Reads from a specified json file"
+	print "Example: getsetting publicKeyUrl"
+	print "Example: getsetting dependencies.jquery /home/debian/ism-device-server/package.json"
+	exit(1)
 
 # Open JSON file
 if len(sys.argv) > 2:
-        with open(sys.argv[2]) as data_file:
-                data = json.load(data_file)
+  with open(sys.argv[2]) as data_file:
+    data = json.load(data_file)
 else:
-        with open('/home/debian/ism-device-server/config.json') as data_file:
-                data = json.load(data_file)
+  with open('/home/debian/ism-device-server/config.json') as data_file:
+    data = json.load(data_file)
 
 # Get all settings as array
 jsonsettings = sys.argv[1].split('.')
 
 # Iterate until we get the setting
 for setting in jsonsettings:
-        data = data[setting]
+	data = data[setting]
 # Print setting
 print data
