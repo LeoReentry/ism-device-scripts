@@ -14,8 +14,7 @@ rm -f fwupdate.tar.gz
 sha256sum update.tar | awk '{print $1}' | perl -ne 's/([0-9a-f]{2})/print chr hex $1/gie' > sha256sum
 # If no public key file is present, get a public key file
 if [ ! -f /home/debian/public.pem ]; then
-  keyurl=`python -c "import sys, json; print json.load(sys.stdin)['publicKeyUrl']" < /home/debian/ism-device-server/config.json`
-  wget $keyurl -O /home/debian/public.pem
+  wget $(getsetting publicKeyUrl) -O /home/debian/public.pem
   if [ $? -eq 1 ]; then
     rm public.pem
     exit 1
