@@ -132,7 +132,7 @@ if ! fgrep -q "unattended" "$LOGPATH/finished"; then
   echo "Done!"
 fi
 # Move getsetting file to path
-sudo cp $THISPATH/getsetting /usr/local/bin
+sudo cp $THISPATH/getsetting /home/debian/bin
 # ============================================================
 # Reboot
 # ============================================================
