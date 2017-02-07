@@ -8,7 +8,7 @@ Clone this script with the --recursive option.
 git clone --recursive https://github.com/LeoReentry/ism-device-scripts.git
 ```
 
-# Device Initialization
+## Device Initialization
 Before executing the device initalization script, make sure that you have the ueye SDK tgz file in the BeagleBone Black's home folder and that the shared libraries are in ~/lib
 
 To initialize a fresh Debian Installation, run
@@ -17,14 +17,17 @@ cd ism-device-scripts
 ./init.sh
 ```
 
-# Device Preparation
+## Device Preparation
 If you used an image file, just update some data
 ```shell
 cd ism-device-scripts
 ./prepare.sh
 ```
 
-# Prepare Development Chroot
+## Firmware Update scripts
+For a firmware update, there are two scripts available. They are called by the device code software and not manually. ```verify.sh``` unpacks a downloaded firmware image and verifies the signature. ```xfwupdate.sh``` extracts the firmware update data.
+
+## Prepare Development Chroot
 To prepare a chroot for development, run
 ```shell
 cd ism-device-scripts
