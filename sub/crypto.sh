@@ -48,4 +48,4 @@ echo "crypto" >> $LOGPATH/finished
 cd $HOMEVAR
 sudo chown -R debian:debian ism-device-crypto/
 # Create symlink to executable
-sudo ln -s -t /usr/local/bin $HOMEVAR/ism-device-crypto/deh
+sudo ln -s -t /home/debian/bin $HOMEVAR/ism-device-crypto/deh
