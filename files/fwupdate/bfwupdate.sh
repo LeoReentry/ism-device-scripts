@@ -27,7 +27,7 @@ elif [[ $answer -eq 3 ]]; then
   echo "Please place a settings script called settings.sh in /home/debian... Done? "
   read t
   chmod +x /home/debian/settings.sh
-  tar --transform='flags=r;s|apply-minor|apply|' -cf major.tar home.tgz -C ism-device-scripts/files/fwupdate apply-major.sh -C /home/debian settings.sh
+  tar --transform='flags=r;s|apply-major|apply|' -cf major.tar home.tgz -C ism-device-scripts/files/fwupdate apply-major.sh -C /home/debian settings.sh
 else
   echo "Please specify an answer. Allowed values are 1-3."
 fi
