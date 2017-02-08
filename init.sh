@@ -131,8 +131,9 @@ if ! fgrep -q "unattended" "$LOGPATH/finished"; then
   sudo dpkg-reconfigure -plow unattended-upgrades
   echo "Done!"
 fi
-# Move getsetting file to path
-sudo cp $THISPATH/getsetting /home/debian/bin
+# Generate symlinks to executables
+sudo ln -s -t /home/debian/bin $THISPATH/getsetting
+sudo ln -s -t /home/debian/bin $FILEPATH/fwupdate/build-firmware-update
 # ============================================================
 # Reboot
 # ============================================================
