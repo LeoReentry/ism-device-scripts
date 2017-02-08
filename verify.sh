@@ -13,8 +13,8 @@ rm -f fwupdate.tar.gz
 # Calculate checksum and save it as byte file
 sha256sum update.tar | awk '{print $1}' | perl -ne 's/([0-9a-f]{2})/print chr hex $1/gie' > sha256sum
 # If no public key file is present, get a public key file
-if [ ! -f /home/debian/public.pem ]; then
-  wget $(getsetting publicKeyUrl) -O /home/debian/public.pem
+if [ ! -f /home/debian/.ismdata/public.pem ]; then
+  wget $(getsetting publicKeyUrl) -O /home/debian/.ismdata/public.pem
   if [ $? -eq 1 ]; then
     rm public.pem
     exit 1
