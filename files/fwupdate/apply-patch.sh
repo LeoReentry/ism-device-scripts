@@ -11,7 +11,7 @@ echo "------- Updating ISM DEVICE SERVER --------"
 git pull -qf
 
 echo "------------ Copying binaries -------------"
-cp -f /home/debian/fwupdate/data/deh /home/debian/ism-device-crypto/
-cp -f /home/debian/fwupdate/data/libdevicecrypto.so /home/debian/ism-device-crypto/
-cp -f /home/debian/fwupdate/data/statetest /home/debian/ism-device/ismdevice-armhf/statetest
+cp -f /home/debian/.fwtmp/deh /home/debian/ism-device-crypto/
+cp -f /home/debian/.fwtmp/libdevicecrypto.so /home/debian/ism-device-crypto/
+cp -f /home/debian/.fwtmp/statetest /home/debian/ism-device/ismdevice-armhf/statetest
 echo "Done!"
