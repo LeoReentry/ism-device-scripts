@@ -42,7 +42,8 @@ echo -e "Done!\nNow we need to create a certificate. This will take a while and 
 ./gencert.sh
 
 echo "Finally, we'll generate some random data for our session secret."
-echo SESSION_SECRET=`openssl rand -base64 21` > .env
+mkdir -p /home/debian/.ismdata/server
+echo SESSION_SECRET=`openssl rand -base64 21` > /home/debian/.ismdata/server/.env
 
 echo "We're going to add a service for the server to be running as daemon."
 sudo cp $FILEPATH/ismserver.service /etc/systemd/system/
