@@ -16,7 +16,7 @@ fi
 # ============================================================
 SCRIPT=$(readlink -f "$0")
 THISPATH=$(dirname "$SCRIPT")
-LOGPATH="$THISPATH/log"
+LOGPATH="/home/debian/.ismdata/initlogs"
 SCRIPTPATH="$THISPATH/sub"
 FILEPATH="$THISPATH/files"
 
@@ -25,7 +25,7 @@ HOMEVAR=/home/debian
 
 # Create folder for logfiles
 if [ ! -d "$LOGPATH" ]; then
-  mkdir $LOGPATH
+  mkdir -p $LOGPATH
 fi
 
 # Set path variables as environment variables
@@ -33,7 +33,7 @@ export LOGPATH
 export SCRIPTPATH
 export HOMEVAR
 # Disable HDMI but enable eMMC overlay
-# sudo sed -i 's/#dtb=am335x-boneblack-emmc-overlay.dtb/dtb=am335x-boneblack-emmc-overlay.dtb/gi' /boot/uEnv.txt
+sudo sed -i 's/#dtb=am335x-boneblack-emmc-overlay.dtb/dtb=am335x-boneblack-emmc-overlay.dtb/gi' /boot/uEnv.txt
 
 
 # ============================================================
