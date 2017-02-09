@@ -22,16 +22,17 @@ elif [[ $answer -eq 2 ]]; then
   rm home.tgz
   echo "Created file minor.tar"
 elif [[ $answer -eq 3 ]]; then
+  echo -n "Please place a settings script called settings.sh in /home/debian - Done (press enter)? "
+  read t
+  chmod +x /home/debian/settings.sh
+  mv /home/debian/settings.sh /home/debian/.ismdata
   echo "Compressing home folder..."
   # Create compressed tarball of all non hidden files and folders
   tar -czvf home.tgz *
-  echo -n "Please place a settings script called settings.sh in /home/debian... Done (press enter)? "
-  read t
-    echo "Creating archive.."
-  chmod +x /home/debian/settings.sh
-  tar --transform='flags=r;s|apply-major|apply|' -cf major.tar home.tgz -C ism-device-scripts/files/fwupdate apply-major.sh -C /home/debian settings.sh
+  echo "Creating archive.."
+  tar --transform='flags=r;s|apply-major|apply|' -cf major.tar home.tgz -C ism-device-scripts/files/fwupdate apply-major.sh -C /home/debian/.ismdata settings.sh
   rm home.tgz
-  rm /home/debian/settings.sh
+  rm /home/debian/.ismdata/settings.sh
   echo "Created file major.tar"
 else
   echo "Please specify an answer. Allowed values are 1-3."
