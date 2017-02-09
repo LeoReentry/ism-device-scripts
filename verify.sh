@@ -21,7 +21,7 @@ if [ ! -f /home/debian/.ismdata/public.pem ]; then
   fi
 fi
 # Verify signature
-openssl pkeyutl -verify -in sha256sum -pubin -inkey /home/debian/public.pem -sigfile sig -pkeyopt digest:sha256
+openssl pkeyutl -verify -in sha256sum -pubin -inkey /home/debian/.ismdata/public.pem -sigfile sig -pkeyopt digest:sha256
 if [ $? -eq 0 ]; then
   exit 0
 fi
