@@ -134,6 +134,28 @@ fi
 # Generate symlinks to executables
 sudo ln -s -t /home/debian/bin $THISPATH/getsetting
 sudo ln -s -t /home/debian/bin $FILEPATH/fwupdate/build-firmware-update
+
+
+# ============================================================
+# openSSL must be from testing
+# ============================================================
+echo -n "Installing latest version of openssl... "
+echo "deb http://httpredir.debian.org/debian testing main contrib non-free" >> /etc/apt/sources.list
+echo "Package: *
+Pin: release a=testing
+Pin-Priority: 100
+
+Package: openssl
+Pin: release a=testing
+Pin-Priority: 900
+" > /etc/apt/preferences
+sudo DEBIAN_FRONTEND=noninteractive apt-get -q -y install openssl > $LOGPATH/openssl.log 2>&1
+if [ $? -ne 0 ]; then
+  echo -e "\nAn error occured during installation of openSSL. See logfile openssl.log for details." 1>&2
+  exit 1
+fi
+echo -e "Done!"
+
 # ============================================================
 # Reboot
 # ============================================================
