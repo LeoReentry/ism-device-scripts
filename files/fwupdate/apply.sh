@@ -13,5 +13,7 @@ rm -rf *
 cd .fwtmp
 echo "----------- Extracting new files ----------"
 tar -xzf home.tgz -C /home/debian/
+echo "------ Running user defined settings ------"
+source settings.sh
 echo "----------------------------------------------------"
-echo "------ Firmware Update Completed successfully ------"
+echo "------ Firmware Update completed successfully ------"
