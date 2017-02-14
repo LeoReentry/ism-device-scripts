@@ -24,12 +24,41 @@ if ! fgrep -q "devcode" "$LOGPATH/finished"; then
     echo -e "\nAn error occured during downloading. See logfile device.log for details." 1>&2
     exit 1
   fi
-  mv $HOMEVAR/lib $HOMEVAR/ismdevice-armhf/
+
+  echo "-------- WGET LIBRARIES --------" >> $LOGPATH/device.log
+  echo -ne "Done!\nDownloading program libraries... "
+  wget -a $LOGPATH/device.log -nv https://ismportalstorage.blob.core.windows.net/setupdata/lib.tar -O $HOMEVAR/lib.tar
+  if [ $? -ne 0 ]; then
+    echo -e "\nAn error occured during downloading. See logfile device.log for details." 1>&2
+    rm $HOMEVAR/lib.tar
+    rm -rf $HOMEVAR/ismdevice-armhf
+    exit 1
+  fi
+  echo -ne "Done!\nExtracting libraries... "
+  mkdir $HOMEVAR/ismdevice-armhf
+  tar -xf $HOMEVAR -C $HOMEVAR/ismdevice-armhf
+  if [ $? -ne 0 ]; then
+    echo -e "\nAn error occured during extraction. See logfile device.log for details." 1>&2
+    rm $HOMEVAR/lib.tar
+    rm -rf $HOMEVAR/ismdevice-armhf
+    exit 1
+  fi
   echo "devcode" >> $LOGPATH/finished
 fi
 
+
+
 if [ -f $HOMEVAR/uEyeSDK-4.8* ] && ! fgrep -q "ueye" "/etc/modules" && ! fgrep -q "ueye" "$LOGPATH/finished"; then
   echo "-------- INSTALL UEYE SDK --------" >> $LOGPATH/device.log
+  echo -ne "Done!\Downloading uEyeSDK... "
+  cd $HOMEVAR
+  wget -a $LOGPATH/device.log -nv https://ismportalstorage.blob.core.windows.net/setupdata/uEyeSDK-4.80.00-ARM-LINUX-IDS-GNUEABI-HF.tgz
+  if [ $? -ne 0 ]; then
+    echo -e "\nAn error occured during downloading. See logfile device.log for details." 1>&2
+    rm $HOMEVAR/uEyeSDK-4.80.00-ARM-LINUX-IDS-GNUEABI-HF.tgz
+    exit 1
+  fi
+
   echo -ne "Done!\nInstalling uEyeSDK... \n"
   # Unpack archive
   cd $HOMEVAR
