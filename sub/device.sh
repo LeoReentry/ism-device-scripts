@@ -105,4 +105,4 @@ echo "Done!"
 # Create symlink to executable
 ln -s -t /home/debian/bin $HOMEVAR/ismdevice-armhf/statetest
 
-echo "device" >> finished
+echo "device" >> $LOGPATH/finished

@@ -33,8 +33,3 @@ echo "Done!"
 
 # Finish
 echo "kernel" > $LOGPATH/finished
-# Reboot
-echo "Restarting now..."
-# Double exit to exit script and SSH
-sudo reboot now & exit & exit
-# sudo shutdown -r now

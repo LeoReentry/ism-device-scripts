@@ -130,31 +130,32 @@ if ! fgrep -q "unattended" "$LOGPATH/finished"; then
   echo -ne "Done!\nConfiguring... "
   sudo dpkg-reconfigure -plow unattended-upgrades
   echo "Done!"
+  echo "unattended" >> $LOGPATH/finished
 fi
-# Generate symlinks to executables
-sudo ln -s -t /home/debian/bin $THISPATH/getsetting
-sudo ln -s -t /home/debian/bin $FILEPATH/fwupdate/build-firmware-update
-
 
 # ============================================================
 # openSSL must be from testing
 # ============================================================
-echo -n "Installing latest version of openssl... "
-echo "deb http://httpredir.debian.org/debian testing main contrib non-free" >> /etc/apt/sources.list
-echo "Package: *
-Pin: release a=testing
-Pin-Priority: 100
+if ! fgrep -q "openssl" "$LOGPATH/finished"; then
+  echo -n "Installing latest version of openssl... "
+  echo "deb http://httpredir.debian.org/debian testing main contrib non-free" >> /etc/apt/sources.list
+  echo "Package: *
+  Pin: release a=testing
+  Pin-Priority: 100
 
-Package: openssl
-Pin: release a=testing
-Pin-Priority: 900
-" > /etc/apt/preferences
-sudo DEBIAN_FRONTEND=noninteractive apt-get -q -y install openssl > $LOGPATH/openssl.log 2>&1
-if [ $? -ne 0 ]; then
-  echo -e "\nAn error occured during installation of openSSL. See logfile openssl.log for details." 1>&2
-  exit 1
+  Package: openssl
+  Pin: release a=testing
+  Pin-Priority: 900
+  " > /etc/apt/preferences
+  sudo DEBIAN_FRONTEND=noninteractive apt-get -q -y update > $LOGPATH/openssl.log 2>&1
+  sudo DEBIAN_FRONTEND=noninteractive apt-get -q -y install openssl >> $LOGPATH/openssl.log 2>&1
+  if [ $? -ne 0 ]; then
+    echo -e "\nAn error occured during installation of openSSL. See logfile openssl.log for details." 1>&2
+    exit 1
+  fi
+  echo -e "Done!"
+  echo "openssl" >> $LOGPATH/finished
 fi
-echo -e "Done!"
 
 # ============================================================
 # Reboot
@@ -162,6 +163,9 @@ echo -e "Done!"
 if ! fgrep -q "reboot" "$LOGPATH/finished"; then
   # Make standard user owner of everything
   sudo chown 1000:1000 -R $HOMEVAR
+  # Generate symlinks to executables
+  sudo ln -s -t /home/debian/bin $THISPATH/getsetting
+  sudo ln -s -t /home/debian/bin $FILEPATH/fwupdate/build-firmware-update
 
   printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
   echo -e "\t\tREBOOT"
