@@ -33,7 +33,7 @@ export LOGPATH
 export SCRIPTPATH
 export HOMEVAR
 # Disable HDMI but enable eMMC overlay
-sudo sed -i 's/#dtb=am335x-boneblack-emmc-overlay.dtb/dtb=am335x-boneblack-emmc-overlay.dtb/gi' /boot/uEnv.txt
+# sudo sed -i 's/#dtb=am335x-boneblack-emmc-overlay.dtb/dtb=am335x-boneblack-emmc-overlay.dtb/gi' /boot/uEnv.txt
 
 
 # ============================================================
@@ -169,7 +169,7 @@ if ! fgrep -q "reboot" "$LOGPATH/finished"; then
   echo "We'll reboot now. Please wait a while, we'll be back shortly."
   # Reboot before talking to TPM
   echo "reboot" >> $LOGPATH/finished
-  sudo reboot now & exit
+  sudo reboot now & exit & exit
 fi
 
 

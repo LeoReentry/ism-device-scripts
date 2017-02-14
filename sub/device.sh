@@ -49,7 +49,7 @@ fi
 
 if ! fgrep -q "ueye" "/etc/modules" && ! fgrep -q "ueye" "$LOGPATH/finished"; then
   echo "-------- INSTALL UEYE SDK --------" >> $LOGPATH/device.log
-  echo -ne "Done!\Downloading uEyeSDK... "
+  echo -ne "Done!\nDownloading uEyeSDK... "
   cd $HOMEVAR
   wget -a $LOGPATH/device.log -nv https://ismportalstorage.blob.core.windows.net/setupdata/uEyeSDK-4.80.00-ARM-LINUX-IDS-GNUEABI-HF.tgz
   if [ $? -ne 0 ]; then
@@ -102,9 +102,6 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 echo "Done!"
-# Create symlink to library and header file
-ln -s -t $HOMEVAR/ismdevice-armhf/lib/ $HOMEVAR/ism-device-crypto/libdevicecrypto.so
-ln -s -t $HOMEVAR/ismdevice-armhf/inc/ $HOMEVAR/ism-device-crypto/crypto.h
 # Create symlink to executable
 ln -s -t /home/debian/bin $HOMEVAR/ismdevice-armhf/statetest
 

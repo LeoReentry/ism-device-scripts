@@ -10,10 +10,10 @@ printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 echo "-------- UPDATE REPOSITORIES FOR NODEJS --------" > $LOGPATH/server.log
 echo -n "Updating repositories... "
 curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash - >> $LOGPATH/server.log
+sudo DEBIAN_FRONTEND=noninteractive apt-get -q -y update >> $LOGPATH/server.log 2>&1
 
 echo "-------- INSTALL NODEJS --------" >> $LOGPATH/server.log
 echo -ne "Done!\nInstalling Node.js... "
-sudo DEBIAN_FRONTEND=noninteractive apt-get -q -y update >> $LOGPATH/server.log 2>&1
 sudo DEBIAN_FRONTEND=noninteractive apt-get -q -y install nodejs >> $LOGPATH/server.log 2>&1
 if [ $? -ne 0 ]; then
   echo -e "\nAn error occured during installation. See logfile server.log for details." 1>&2
@@ -42,7 +42,7 @@ echo -e "Done!\nNow we need to create a certificate. This will take a while and 
 ./gencert.sh
 
 echo "Finally, we'll generate some random data for our session secret."
-mkdir -p /home/debian/.ismdata/server
+mkdir -p /home/debian/.ismdata/server/
 echo SESSION_SECRET=`openssl rand -base64 21` > /home/debian/.ismdata/server/.env
 
 echo "We're going to add a service for the server to be running as daemon."
