@@ -166,6 +166,24 @@ if ! fgrep -q "reboot" "$LOGPATH/finished"; then
   # Generate symlinks to executables
   sudo ln -s -t /home/debian/bin $THISPATH/getsetting
   sudo ln -s -t /home/debian/bin $FILEPATH/fwupdate/build-firmware-update
+  # Clean up
+  rm -f $HOMEVAR/lib.tar
+  rm -f $HOMEVAR/uEyeSDK-*
+  cd $HOMEVAR
+  # Remove source code from crypto
+  mv ism-device-crypto/deh ./
+  mv ism-device-crypto/libdevicecrypto.so ./
+  rm -rf ism-device-crypto
+  mkdir ism-device-crypto
+  mv deh ism-device-crypto
+  mv libdevicecrypto.so ism-device-crypto
+  # Remove source code from device
+  mv ismdevice-armhf/statetest ./
+  mv ismdevice-armhf/lib ./
+  rm -rf ismdevice-armhf
+  mkdir ismdevice-armhf
+  mv statetest ismdevice-armhf
+  mv lib ismdevice-armhf
 
   printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
   echo -e "\t\tREBOOT"
