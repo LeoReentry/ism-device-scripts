@@ -42,7 +42,7 @@ sudo sed -i 's/#dtb=am335x-boneblack-emmc-overlay.dtb/dtb=am335x-boneblack-emmc-
 # If kernel isn't version 3.8.X, we'll have to update it
 uname -r | grep -qP "3\.8\.\d{1,}-[\w\d]{1,}"
 # If we don't have the desired Kernel version, we'll install it
-if [ $? -eq  1 ]; then
+if [ $? -eq  1 ] && ! fgrep -q "kernel" "$LOGPATH/finished"; then
   # Update kernel
   source $SCRIPTPATH/kernel.sh
 # ============================================================

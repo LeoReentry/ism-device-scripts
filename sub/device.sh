@@ -47,7 +47,7 @@ fi
 
 
 
-if [ -f $HOMEVAR/uEyeSDK-4.8* ] && ! fgrep -q "ueye" "/etc/modules" && ! fgrep -q "ueye" "$LOGPATH/finished"; then
+if ! fgrep -q "ueye" "/etc/modules" && ! fgrep -q "ueye" "$LOGPATH/finished"; then
   echo "-------- INSTALL UEYE SDK --------" >> $LOGPATH/device.log
   echo -ne "Done!\Downloading uEyeSDK... "
   cd $HOMEVAR
