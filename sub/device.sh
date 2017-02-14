@@ -35,8 +35,7 @@ if ! fgrep -q "devcode" "$LOGPATH/finished"; then
     exit 1
   fi
   echo -ne "Done!\nExtracting libraries... "
-  mkdir $HOMEVAR/ismdevice-armhf
-  tar -xf $HOMEVAR -C $HOMEVAR/ismdevice-armhf
+  tar -xf $HOMEVAR/lib.tar -C $HOMEVAR/ismdevice-armhf
   if [ $? -ne 0 ]; then
     echo -e "\nAn error occured during extraction. See logfile device.log for details." 1>&2
     rm $HOMEVAR/lib.tar
