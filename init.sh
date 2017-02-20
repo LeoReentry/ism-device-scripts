@@ -164,7 +164,8 @@ if ! fgrep -q "reboot" "$LOGPATH/finished"; then
   # Make standard user owner of everything
   sudo chown 1000:1000 -R $HOMEVAR
   # Generate symlinks to executables
-  sudo ln -s -t /home/debian/bin $THISPATH/getsetting
+  sudo ln -s -t /home/debian/bin $FILEPATH/getsetting
+  sudo ln -s -t /home/debian/bin $FILEPATH/setsetting
   sudo ln -s -t /home/debian/bin $FILEPATH/fwupdate/build-firmware-update
   # Clean up
   rm -f $HOMEVAR/lib.tar

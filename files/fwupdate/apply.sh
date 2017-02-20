@@ -2,7 +2,7 @@
 
 # Give the process 5 seconds to exit
 sleep 5
-# If there still is a process staetest, kill with SIGKILL
+# If there still is a process statetest, kill with SIGKILL
 while ps -fC statetest; do
   kill -9 `pidof statetest`
 

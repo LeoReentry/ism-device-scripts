@@ -1,0 +1,26 @@
+#!/usr/bin/python2.7
+import json
+import sys
+import os
+
+if len(sys.argv) is 1:
+	print "Usage:"
+	print sys.argv[0] + " setting -- Writes to config.json file"
+	print sys.argv[0] + " setting file.json -- Writes to a specified json file"
+	print "Example: setsetting softwareversion v0-r97"
+	exit(1)
+
+# Open JSON file
+if len(sys.argv) > 3:
+  filename = sys.argv[3]
+else:
+  filename = '/home/debian/.ismdata/config.json'
+
+with open(filename) as data_file:
+  data = json.load(data_file)
+
+data[sys.argv[1]] = sys.argv[2]
+
+os.remove(filename)
+with open(filename, 'w') as f:
+    json.dump(data, f, indent=4)
