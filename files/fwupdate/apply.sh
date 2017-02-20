@@ -5,6 +5,7 @@ sleep 5
 # If there still is a process statetest, kill with SIGKILL
 while ps -fC statetest; do
   kill -9 `pidof statetest`
+done;
 
 cd /home/debian
 # Remove all non-hidden files
