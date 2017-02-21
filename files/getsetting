@@ -21,8 +21,11 @@ else:
 # Get all settings as array
 jsonsettings = sys.argv[1].split('.')
 
-# Iterate until we get the setting
-for setting in jsonsettings:
-	data = data[setting]
-# Print setting
-print data
+try:
+	# Iterate until we get the setting
+	for setting in jsonsettings:
+		data = data[setting]
+	# Print setting
+	print data
+except KeyError:
+	print >>sys.stderr, "Key not found"
