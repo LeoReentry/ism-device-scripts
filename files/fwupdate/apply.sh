@@ -30,7 +30,14 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 echo "---------- Running user defined settings -----------"
-[ -f settings.sh ] && source settings.sh || echo "No settings file found"
+cd /home/debian/ism-device-scripts
+git pull -q origin master
+if [ $? -ne 0 ]; then
+  echo "Error"
+  sudo reboot now
+  exit 1
+fi
+source apply-fw-settings.sh
 if [ $? -ne 0 ]; then
   echo "Error"
   sudo reboot now

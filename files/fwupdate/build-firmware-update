@@ -1,21 +1,17 @@
 #!/bin/bash
 
 echo "--------- Firmware Update Builder ---------"
-echo "This program will pack the home folder and some scripts to apply the firmware update in one tarfile."
-echo "You can now optionally place a script called settings.sh in /home/debian"
-echo -n "To continue, press enter. To exit, press ctrl+c... "
-read t
+echo "This program will pack the home folder."
+echo "=== IMPORTANT ==="
+echo "Don't forget to place a script with the name of the firmware update in the github script repository (~/ism-device-scripts/fw-settings-scripts/)"
+echo "This has to be done before executing the firmware update. The devices will pull the changes from origin."
 cd /home/debian
-if [ -f /home/debian/settings.sh ];then
-  chmod +x /home/debian/settings.sh
-  mv /home/debian/settings.sh /home/debian/.ismdata
-fi
+
 echo -n "Compressing home folder..."
 # Create compressed tarball of all non hidden files and folders
 tar -czf home.tgz *
 echo -ne "Done\nCreating archive..."
-tar -cf update.tar home.tgz -C ism-device-scripts/files/fwupdate apply.sh $([ -f /home/debian/.ismdata/settings.sh ] && echo "-C /home/debian/.ismdata settings.sh")
+tar -cf update.tar home.tgz -C ism-device-scripts/files/fwupdate apply.sh
 echo -ne "Done\nRemoving leftover files..."
 rm home.tgz
-[ -f /home/debian/.ismdata/settings.sh ] && rm /home/debian/.ismdata/settings.sh
 echo -e "Done!\nCreated file update.tar in /home/debian"
