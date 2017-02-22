@@ -16,6 +16,8 @@ if [ $? -ne 0 ]; then
   sudo reboot now
   exit 1
 fi
+echo "Done!"
+echo "Create new hidden directory .fwtmp"
 cd .fwtmp
 if [ $? -ne 0 ]; then
   echo "Error"
@@ -23,7 +25,8 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 echo "--------------- Extracting new files ---------------"
-tar -xzf home.tgz -C /home/debian/
+tar -xzvf home.tgz -C /home/debian/
+echo "All files extracted"
 if [ $? -ne 0 ]; then
   echo "Error"
   sudo reboot now
