@@ -9,7 +9,7 @@ done;
 
 cd /home/debian
 # Remove all non-hidden files
-echo "----------------- Removing old files ----------------"
+echo "---------------- Removing old files ----------------"
 rm -rf *
 if [ $? -ne 0 ]; then
   echo "Error"
@@ -22,7 +22,7 @@ if [ $? -ne 0 ]; then
   sudo reboot now
   exit 1
 fi
-echo "---------------- Extracting new files ---------------"
+echo "--------------- Extracting new files ---------------"
 tar -xzf home.tgz -C /home/debian/
 if [ $? -ne 0 ]; then
   echo "Error"
