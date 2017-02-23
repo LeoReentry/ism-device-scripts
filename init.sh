@@ -186,6 +186,14 @@ if ! fgrep -q "reboot" "$LOGPATH/finished"; then
   mv statetest ismdevice-armhf
   mv lib ismdevice-armhf
 
+  # Disable USB mass storage
+  sudo sh -c "echo 'install usb-storage /bin/true' > /etc/modprobe.d/usb-storage.conf"
+  # Disable USB HIDs and Storage in blacklist
+  sudo sh -c "echo 'blacklist usbhid' > /etc/modprobe.d/blacklist.conf"
+  sudo sh -c "echo 'blacklist usb-storage' >> /etc/modprobe.d/blacklist.conf"
+  # Regenerate initramfs
+  update-initramfs -u -k $(uname -r)
+
   printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
   echo -e "\t\tREBOOT"
   printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
