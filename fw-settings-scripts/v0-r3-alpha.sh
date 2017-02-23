@@ -19,7 +19,7 @@ fi
 
 
 if [ -f /etc/modprobe.d/blacklist.conf ] && fgrep -q "blacklist usbhid" "/etc/modprobe.d/blacklist.conf"; then
-  echo "[v0-r3-alpha]: usbhid module already disabled."
+  echo "[v0-r3-alpha]: usbhid module already blacklisted."
 else
   # Disable USB mass storage
   sudo sh -c "echo 'blacklist usbhid' >> /etc/modprobe.d/blacklist.conf"
