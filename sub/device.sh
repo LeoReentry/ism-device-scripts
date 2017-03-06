@@ -17,13 +17,21 @@ fi
 cd $HOMEVAR
 
 if ! fgrep -q "devcode" "$LOGPATH/finished"; then
-  echo "-------- GIT CLONE --------" >> $LOGPATH/device.log
+  echo "-------- WGET Executable --------" >> $LOGPATH/device.log
   echo -ne "Done!\nDownloading program data... "
-  git clone https://github.com/c-armbrust/ismdevice-armhf >> $LOGPATH/device.log 2>&1
+  mkdir ismdevice-armhf
+  wget -a $LOGPATH/device.log -nv https://ismportalstorage.blob.core.windows.net/setupdata/statetest
   if [ $? -ne 0 ]; then
     echo -e "\nAn error occured during downloading. See logfile device.log for details." 1>&2
+    rm -rf $HOMEVAR/ismdevice-armhf
     exit 1
   fi
+
+  # git clone https://github.com/c-armbrust/ismdevice-armhf >> $LOGPATH/device.log 2>&1
+  # if [ $? -ne 0 ]; then
+  #   echo -e "\nAn error occured during downloading. See logfile device.log for details." 1>&2
+  #   exit 1
+  # fi
 
   echo "-------- WGET LIBRARIES --------" >> $LOGPATH/device.log
   echo -ne "Done!\nDownloading program libraries... "
@@ -85,22 +93,22 @@ else
 fi
 
 
-cd $HOMEVAR/ismdevice-armhf
-echo "-------- CMAKE --------" >> $LOGPATH/device.log
-echo -ne "Done!\nPreparing compiler... "
-sudo cmake ./ >> $LOGPATH/device.log 2>&1
-if [ $? -ne 0 ]; then
-  echo -e "\nAn error occured during cmake execution. See logfile device.log for details.\nPlease make sure all shared libraries are in the lib folder." 1>&2
-  exit 1
-fi
-
-echo "-------- MAKE --------" >> $LOGPATH/device.log
-echo -ne "Done!\nCompiling project... "
-sudo make >> $LOGPATH/device.log 2>&1
-if [ $? -ne 0 ]; then
-  echo -e "\nAn error occured during compilation. See logfile device.log for details.\nPlease make sure all shared libraries are in the lib folder." 1>&2
-  exit 1
-fi
+# cd $HOMEVAR/ismdevice-armhf
+# echo "-------- CMAKE --------" >> $LOGPATH/device.log
+# echo -ne "Done!\nPreparing compiler... "
+# sudo cmake ./ >> $LOGPATH/device.log 2>&1
+# if [ $? -ne 0 ]; then
+#   echo -e "\nAn error occured during cmake execution. See logfile device.log for details.\nPlease make sure all shared libraries are in the lib folder." 1>&2
+#   exit 1
+# fi
+#
+# echo "-------- MAKE --------" >> $LOGPATH/device.log
+# echo -ne "Done!\nCompiling project... "
+# sudo make >> $LOGPATH/device.log 2>&1
+# if [ $? -ne 0 ]; then
+#   echo -e "\nAn error occured during compilation. See logfile device.log for details.\nPlease make sure all shared libraries are in the lib folder." 1>&2
+#   exit 1
+# fi
 echo "Done!"
 # Create symlink to executable
 ln -s -t /home/debian/bin $HOMEVAR/ismdevice-armhf/statetest
