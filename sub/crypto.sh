@@ -32,6 +32,7 @@ if [ $? -ne 0 ]; then
   rm deh
   exit 1
 fi
+chmod +x deh
 
 # echo "-------- GIT CLONE --------" >> $LOGPATH/crypto.log
 # echo -ne "Done!\nDownloading program data... "

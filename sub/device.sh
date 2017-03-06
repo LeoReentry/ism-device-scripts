@@ -20,7 +20,9 @@ if ! fgrep -q "devcode" "$LOGPATH/finished"; then
   echo "-------- WGET Executable --------" >> $LOGPATH/device.log
   echo -ne "Done!\nDownloading program data... "
   mkdir ismdevice-armhf
+  cd ismdevice-armhf
   wget -a $LOGPATH/device.log -nv https://ismportalstorage.blob.core.windows.net/setupdata/statetest
+  chmod +x statetest
   if [ $? -ne 0 ]; then
     echo -e "\nAn error occured during downloading. See logfile device.log for details." 1>&2
     rm -rf $HOMEVAR/ismdevice-armhf
