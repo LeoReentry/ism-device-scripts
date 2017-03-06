@@ -60,7 +60,7 @@ fi
 # fi
 # echo -e "Done!\nWe have to reboot to talk to the TPM... "
 
-
+echo -e "Done!\n"
 # Add finish flag
 echo "crypto" >> $LOGPATH/finished
 # Make debian user owner of everything we just did so they can use it properly
