@@ -9,6 +9,8 @@ printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 
 echo "-------- UPDATE REPOSITORIES FOR NODEJS --------" > $LOGPATH/server.log
 echo -n "Updating repositories... "
+sudo DEBIAN_FRONTEND=noninteractive sudo apt-get -q -y purge nodejs* >> $LOGPATH/server.log 2>&1
+sudo DEBIAN_FRONTEND=noninteractive sudo apt-get -q -y autoremove >> $LOGPATH/server.log 2>&1
 curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash - >> $LOGPATH/server.log
 sudo DEBIAN_FRONTEND=noninteractive apt-get -q -y update >> $LOGPATH/server.log 2>&1
 
@@ -51,7 +53,7 @@ sudo cp $FILEPATH/ismserver.service /etc/systemd/system/
 sudo setcap 'cap_net_bind_service=+ep' $(readlink -f $(which node))
 # Generate node daemon
 sudo systemctl daemon-reload
-sudo systemctl enable ismserver
+sudo systemctl enable ismserver.service
 echo "Okay, we're done."
 
 # Finish

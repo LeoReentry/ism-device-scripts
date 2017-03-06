@@ -8,10 +8,20 @@ printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 
 echo "-------- REMOVE APACHE2 --------" > $LOGPATH/clean.log
 echo -n "Removing Apache2... "
-sudo DEBIAN_FRONTEND=noninteractive apt-get -q -y purge apache2 apache2-utils apache2-data apache2-bin >> $LOGPATH/clean.log 2>&1
-if [ $? -ne 0 ]; then
-  echo -e "\nAn error occured during removing. See logfile clean.log for details." 1>&2
-  exit 1
+sudo DEBIAN_FRONTEND=noninteractive apt-get -q -y purge apache2 apache2-utils >> $LOGPATH/clean.log 2>&1
+# Jessie packages are different to wheezy packages
+if lsb_release -sd | grep -q jessie; then
+  sudo DEBIAN_FRONTEND=noninteractive apt-get -q -y purge apache2-data apache2-bin >> $LOGPATH/clean.log 2>&1
+  if [ $? -ne 0 ]; then
+    echo -e "\nAn error occured during removing. See logfile clean.log for details." 1>&2
+    exit 1
+  fi
+else
+  sudo DEBIAN_FRONTEND=noninteractive apt-get -q -y purge apache2.2-bin >> $LOGPATH/clean.log 2>&1
+  if [ $? -ne 0 ]; then
+    echo -e "\nAn error occured during removing. See logfile clean.log for details." 1>&2
+    exit 1
+  fi
 fi
 
 echo "-------- REMOVE X11 --------" >> $LOGPATH/clean.log
@@ -66,15 +76,18 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get -q -y purge bonescript >> $LOGPATH/c
 sudo DEBIAN_FRONTEND=noninteractive apt-get -q -y purge bone101 >> $LOGPATH/clean.log 2>&1
 
 
-echo "-------- REMOVE NODE-RED --------" >> $LOGPATH/clean.log
-echo -ne "Done!\nRemoving Node-RED... "
-sudo systemctl stop node-red.service >> $LOGPATH/clean.log 2>&1
-sudo systemctl stop node-red.socket >> $LOGPATH/clean.log 2>&1
-sudo systemctl disable node-red.service >> $LOGPATH/clean.log 2>&1
-sudo systemctl disable node-red.socket >> $LOGPATH/clean.log 2>&1
-sudo npm remove -g node-red >> $LOGPATH/clean.log 2>&1
-sudo systemctl daemon-reload >> $LOGPATH/clean.log 2>&1
-sudo DEBIAN_FRONTEND=noninteractive apt-get -q -y purge bb-node-red-installer >> $LOGPATH/clean.log 2>&1
+# Node-RED only on jessie
+if lsb_release -sd | grep -q jessie; then
+  echo "-------- REMOVE NODE-RED --------" >> $LOGPATH/clean.log
+  echo -ne "Done!\nRemoving Node-RED... "
+  sudo systemctl stop node-red.service >> $LOGPATH/clean.log 2>&1
+  sudo systemctl stop node-red.socket >> $LOGPATH/clean.log 2>&1
+  sudo systemctl disable node-red.service >> $LOGPATH/clean.log 2>&1
+  sudo systemctl disable node-red.socket >> $LOGPATH/clean.log 2>&1
+  sudo npm remove -g node-red >> $LOGPATH/clean.log 2>&1
+  sudo systemctl daemon-reload >> $LOGPATH/clean.log 2>&1
+  sudo DEBIAN_FRONTEND=noninteractive apt-get -q -y purge bb-node-red-installer >> $LOGPATH/clean.log 2>&1
+fi
 
 echo -e "Done!\nCleanup finished!"
 echo "clean" >> $LOGPATH/finished

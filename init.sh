@@ -35,7 +35,10 @@ export HOMEVAR
 # Disable HDMI but enable eMMC overlay
 # sudo sed -i 's/#dtb=am335x-boneblack-emmc-overlay.dtb/dtb=am335x-boneblack-emmc-overlay.dtb/gi' /boot/uEnv.txt
 
-
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+echo -e "\t\tUpdate Repositories"
+printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+sudo DEBIAN_FRONTEND=noninteractive apt-get -q -y update >> $LOGPATH/update.log 2>&1
 # ============================================================
 # Downgrade Kernel to 3.8
 # ============================================================
@@ -186,7 +189,7 @@ if ! fgrep -q "reboot" "$LOGPATH/finished"; then
   echo "We'll reboot now. Please wait a while, we'll be back shortly."
   # Reboot before talking to TPM
   echo "reboot" >> $LOGPATH/finished
-  sudo reboot now & exit & exit
+  sudo shutdown -r now & exit & exit
 fi
 
 
